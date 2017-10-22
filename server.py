@@ -1,31 +1,55 @@
 import socket
-#21600-21699
+import sys
+import os
+s=socket.socket();
+port = 21606
+host = socket.gethostname()
+print host;
+# Next bind to the port
+# we have not typed any ip in the ip field
+# instead we have inputted an empty string
+# this makes the server listen to requests 
+# coming from other computers on the network
+def sendToRemainingServers(filename):
+    #ssh -p 6774 a24run@host scp -rp -P 21604 /media/a24run/New Volume/Ubuntu data /codeing stuff /LearningSockets/ hi  a24run@host:
+    os.system("scp hi USER@SERVER:PATH")
 
-def server_program():
-    # get the hostname
-    host = '129.7.240.33'
-    port = 21601  # initiate port no above 1024
+#start socket
+try:
+    s.bind((host, port))
+except socket.error , msg:
+    print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+    sys.exit()
+s.listen(5)
 
-    server_socket = socket.socket()  # get instance
-    # look closely. The bind() function takes tuple as argument
-    server_socket.bind((host, port))  # bind host address and port together
+while True:
+    filename=""
+    c, addr = s.accept()     # Establish connection with client.
+    print 'Got connection from', addr
 
-    # configure how many client the server can listen simultaneously
-    server_socket.listen(2)
-    conn, address = server_socket.accept()  # accept new connection
-    print("Connection from: " + str(address))
-    while True:
-        # receive data stream. it won't accept data packet greater than 1024 bytes
-        data = conn.recv(1024).decode()
-        if not data:
-            # if data is not received break
-            break
-        print("from connected user: " + str(data))
-        data = input(' -> ')
-        conn.send(data.encode())  # send data to the client
-
-    conn.close()  # close the connection
-
-
-if __name__ == '__main__':
-    server_program()
+    # size = c.recv(1024)
+    # filesize=""
+    # for i in range(0,1024):
+    #     if (size[i].isdigit()):
+    #         filesize+=size[i]
+    #     else:
+    #         break   
+    # print filesize
+    # filename= size[i:1024]
+    # for i in range(1024,int(filesize)):
+    #     temp=c.recv(1);
+    #     if temp.isdigit():
+    #         temp=0
+    #     else:
+    #         filename += c.recv(1)
+    # print filename  
+    # f = open(filename,'wb')
+    # l = c.recv(1024)
+    # while (l):
+    #     print "Receiving..."
+    #     f.write(l)
+    #     l = c.recv(1024)
+    # f.close()
+    # print "Done Receiving"
+    c.send('Thank you for connecting')
+    c.close()  
