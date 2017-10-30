@@ -5,8 +5,12 @@ def sendToIndividualserver(host,port,JsonOfFile):
     new_socket=socket.socket();
     new_socket.connect((host,int(port)))
     JsonOfFile['Type']="ServerDistribute"
-    serverCommunication=json.dumps(JsonOfFile);
-    new_socket.send(serverCommunication)
+    serverCommunication={"Type":JsonOfFile['Type'],"Name":JsonOfFile['Name'],"size":JsonOfFile['size']}
+    jsonServerhead=json.dumps(serverCommunication);
+    new_socket.send(jsonServerhead)
+    ServerData={"data":JsonOfFile['data']}
+    jsonServerData=json.dumps(ServerData);
+    new_socket.send(jsonServerData)
     print "Done Sending"
     new_socket.close();
 # Send to ALL servers 
@@ -34,7 +38,7 @@ while True:
     print 'Got connection from', addr
     getting_data=""
     data=c.recv(1024)
-    print('inital data is '+data);
+    #print('inital data is '+data);
     curlRequest=data.split('\n')
     typeAndUrl=curlRequest[0]
     valueOfUrl=curlRequest[len(curlRequest)-1]
@@ -47,9 +51,12 @@ while True:
         while(data!=""):
             getting_data+=data
             data=c.recv(1024)
-        JsonData=json.loads(getting_data)
-        f = open(JsonData['Data']['Name'],'wb')
-        f.write(base64.b64decode(JsonData['Data']['data']))
+        #tempString=getting_data
+        tempString=getting_data.replace("}{",",")
+        #print(tempString);
+        JsonData=json.loads(tempString)
+        f = open(JsonData['Name'],'wb')
+        f.write(base64.b64decode(JsonData['data']))
         f.close()
         print "Done Receiving"
         c.send('Thank you for connecting')
@@ -58,12 +65,13 @@ while True:
     elif(data.find("ServerDistribute")!=-1):
         print ("request from the Server");
         while(data!=""):
-            print("in while loop data is "+data)
             getting_data+=data
             data=c.recv(1024)
-        JsonData=json.loads(getting_data)
-        f = open(JsonData['Data']['Name'],'wb')
-        f.write(base64.b64decode(JsonData['Data']['data']))
+        tempString=getting_data.replace("}{",",")
+        #print(tempString);
+        JsonData=json.loads(tempString)
+        f = open(JsonData['Name'],'wb')
+        f.write(base64.b64decode(JsonData['data']))
         f.close()
         print "Done Receiving"
         c.send('Thank you for connecting')
