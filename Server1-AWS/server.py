@@ -33,7 +33,7 @@ def CreateServerObjects():
     ServerArray=[]
     with open(sys.argv[1]) as i:
         data_price=json.load(i)
-    presentServer=ServerPrices('127.0.0.1',port);
+    presentServer=ServerPrices('127.0.0.1',port);               #Present Server
     for x in range(0,len(data_price['AllAddresses'][0])):
         temp=ServerPrices(data_price['AllAddresses'][x]['host'],data_price['AllAddresses'][x]['port']);
         ServerArray.append(temp)
@@ -143,9 +143,9 @@ while True:
             c.send("'HTTP/1.1 200 OK\nContent-Type: text/html\n\n'");
             Value_to_Send='';
             for x in range(0,len(postRequestInput['changes'])):
-                print(postRequestInput['changes'][x]['price'])
+                #print(postRequestInput['changes'][x]['price'])
                 for server in list_of_servers_with_price:
-                    print("presentServer "+server.host , str(server.port),"check port ",str(postRequestInput['changes'][x]['port']),"presentprice" , server.price);
+                    #print("presentServer "+server.host , str(server.port),"check port ",str(postRequestInput['changes'][x]['port']),"presentprice" , server.price);
                     if(server.host==postRequestInput['changes'][x]['host']  and str(server.port) == postRequestInput['changes'][x]['port']):
                         server.price=postRequestInput['changes'][x]['price'] 
             for x in range(0,len(list_of_servers_with_price)):
