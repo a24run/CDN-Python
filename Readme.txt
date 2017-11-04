@@ -1,9 +1,5 @@
 CDN Project
 
-Name:Arun Kuchibotla
-UH email address: akuchibotla@uh.edu
-Your ID: 1605360
-
 Implementation Details:
 
 CLIENT:
