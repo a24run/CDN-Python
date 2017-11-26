@@ -1,1 +1,1 @@
-{"AllAddresses":[{"port" : "21610","host" : "18.221.59.87"},{"port" : "21611","host" : "52.168.141.30"}]}
+{"AllAddresses":[{"port" : "21610","host" : "18.221.59.87","provider":"AWS"},{"port" : "21611","host" : "52.168.141.30","provider":"Azure"}]}
