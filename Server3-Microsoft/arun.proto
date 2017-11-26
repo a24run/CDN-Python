@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message clientUpload {
+  string sz = 1;
+  string filecontent = 2;
+  bool isdist = 3;
+  string filename=4;
+}
+
+message serverComm {
+  string ServerCommunication = 1;
+  string listOfFiles = 2;
+  string heartBeat=3;
+  string host=4;
+  int32 port=5;
+}
+
